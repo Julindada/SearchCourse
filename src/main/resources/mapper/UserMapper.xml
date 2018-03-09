@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tust.mapper.UserMapper">
+    <insert id="save" parameterType="cn.edu.tust.pojo.User" useGeneratedKeys="true">
+        INSERT INTO user (username,password) VALUES(#{username},#{password});
+    </insert>
+    <select id="findWithUsernameAndPassword" resultType="cn.edu.tust.pojo.User">
+        SELECT * FROM user WHERE username = #{username} AND password = #{password};
+    </select>
+    <select id="findWithUsername" resultType="cn.edu.tust.pojo.User">
+        SELECT * FROM user WHERE username = #{username};
+    </select>
+
+    <!--upload Excel-->
+
+    <insert id="uploadClass" parameterType="cn.edu.tust.pojo.CourseClass" useGeneratedKeys="true">
+        INSERT INTO course_class (class_id,course_id,course_num,course_name,course_prop)
+        VALUES (#{class_id},#{course_id},#{course_num},#{course_name},#{course_prop});
+    </insert>
+    <insert id="uploadPE" parameterType="cn.edu.tust.pojo.CoursePE" useGeneratedKeys="true">
+        INSERT INTO course_pe (grade,faculty,course_id,course_num,course_name,course_teacher,week,lesson,start_stop_week,campus,course_capacity)
+        VALUES (#{grade},#{faculty},#{course_id},#{course_num},#{course_name},#{course_teacher},#{week},#{lesson},#{start_stop_week},#{campus},#{course_capacity});
+    </insert>
+    <insert id="uploadGeneral" parameterType="cn.edu.tust.pojo.CourseGeneral" useGeneratedKeys="true">
+        INSERT INTO course_general (campus,course_id,course_num,course_times,course_class,week,lesson,classroom,property,course_name,course_teacher,
+                               start_stop_week,credit,course_period,course_limit)
+        VALUES (#{campus},#{course_id},#{course_num},#{course_times},#{course_class},#{week},#{lesson},#{classroom},#{property},#{course_name},#{course_teacher},
+                #{start_stop_week},#{credit},#{course_period},#{course_limit});
+    </insert>
+
+    <insert id="uploadLevel" parameterType="cn.edu.tust.pojo.CourseLevel" useGeneratedKeys="true">
+        INSERT INTO course_level (faculty,class_id,student_id,student_name,course_level,remark)
+        VALUES (#{faculty},#{class_id},#{student_id},#{student_name},#{course_level},#{remark});
+    </insert>
+
+    <insert id="uploadEnglish" parameterType="cn.edu.tust.pojo.CourseEnglish" useGeneratedKeys="true">
+        INSERT INTO course_english (faculty,course_id,course_num,course_name,course_teacher,remark)
+        VALUES (#{faculty},#{course_id},#{course_num},#{course_name},#{course_teacher},#{remark});
+    </insert>
+
+    <insert id="uploadComputer" parameterType="cn.edu.tust.pojo.CourseComputer" useGeneratedKeys="true">
+        INSERT INTO course_computer (faculty,course_id,course_num,course_name,course_teacher,remark)
+        VALUES (#{faculty},#{course_id},#{course_num},#{course_name},#{course_teacher},#{remark});
+    </insert>
+
+    <insert id="uploadTeacher" parameterType="cn.edu.tust.pojo.DataTeacher" useGeneratedKeys="true">
+        INSERT INTO data_teacher (teacher_name,teacher_title,teacher_course,teacher_resume)
+                VALUES (#{teacher_name},#{teacher_title},#{teacher_course},#{teacher_resume});
+    </insert>
+
+    <delete id="deleteClass">
+        TRUNCATE course_class;
+    </delete>
+
+    <delete id="deletePE">
+        TRUNCATE course_pe;
+    </delete>
+
+    <delete id="deleteGeneral">
+        TRUNCATE course_general;
+    </delete>
+
+    <delete id="deleteLevel">
+        TRUNCATE course_level;
+    </delete>
+
+    <delete id="deleteEnglish">
+        TRUNCATE course_english;
+    </delete>
+
+    <delete id="deleteComputer">
+        TRUNCATE course_computer;
+    </delete>
+
+    <delete id="deleteTeacher">
+        TRUNCATE data_teacher;
+    </delete>
+
+</mapper>

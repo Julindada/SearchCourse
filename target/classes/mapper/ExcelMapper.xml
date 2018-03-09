@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tust.mapper.ExcelMapper">
+    <!-- 开启本mapper namespace下的二级缓存 -->
+    <cache eviction="LRU" readOnly="true"/>
+
+    <select id="selectClass" resultType = "cn.edu.tust.pojo.CourseClass">
+        SELECT * FROM course_class WHERE class_id = #{class_id};
+    </select>
+
+    <select id="selectPE" resultType = "cn.edu.tust.pojo.CoursePE">
+        SELECT * FROM course_pe;
+    </select>
+
+    <select id="selectGeneral" resultType = "cn.edu.tust.pojo.CourseGeneral">
+        SELECT * FROM course_general;
+    </select>
+
+    <select id="selectLevel" resultType = "cn.edu.tust.pojo.CourseLevel">
+        SELECT * FROM course_level WHERE student_id = #{student_id};
+    </select>
+
+    <select id="selectEnglish" resultType = "cn.edu.tust.pojo.CourseEnglish">
+        SELECT * FROM course_english;
+    </select>
+
+    <select id="selectComputer" resultType = "cn.edu.tust.pojo.CourseComputer">
+        SELECT * FROM course_computer;
+    </select>
+
+    <select id="selectTeacher" resultType = "cn.edu.tust.pojo.DataTeacher">
+        SELECT * FROM data_teacher;
+    </select>
+
+</mapper>

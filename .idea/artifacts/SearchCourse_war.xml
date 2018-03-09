@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SearchCourse:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="jwxt.war">
+      <element id="artifact" artifact-name="SearchCourse:war exploded" />
+    </root>
+  </artifact>
+</component>

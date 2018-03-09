@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <!-- 1.配置数据源 -->
+    <!-- 加载配置文件 -->
+    <context:property-placeholder location="db.properties" />
+    <!-- 配置bdcp连接池 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="maxActive" value="10" />
+        <property name="maxIdle" value="5" />
+    </bean>
+    <!-- 配置c3p0连接池: -->
+    <bean id="dataSource2" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!--每5小时检查所有连接池中的空闲连接。防止mysql wait_timeout（默认的为8小时） -->
+        <property name="idleConnectionTestPeriod" value="18000"/>
+    </bean>
+
+    <!-- 2.SqlsessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 数据源 -->
+        <property name="mapperLocations" value="classpath*:/mapper/*.xml" />
+        <property name="configLocation" value="classpath:spring/mybatis-config.xml" />
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 3.MapperScannerConfigurer：mapper的扫描器，将包下边的mapper接口自动创建代理对象，
+    自动创建到spring容器中，bean的id是mapper的类名（首字母小写） -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 配置扫描包的路径。如果要扫描多个包，中间使用半角逗号分隔 -->
+        <property name="basePackage" value="cn.edu.tust.mapper"/>
+        <!-- 使用sqlSessionFactoryBeanName -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- service包扫描 -->
+    <context:component-scan base-package="cn.edu.tust.service" />
+
+    <!-- 1.事务管理器 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>
